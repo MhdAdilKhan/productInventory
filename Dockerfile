@@ -4,7 +4,7 @@ ADD ./productInventory /web
 WORKDIR /web
 RUN python -m venv /env \
     && /env/bin/pip install --upgrade pip \
-    && /env/bin/pip install --no-cache-dir -r /web/requirements.txt && \
+    && /env/bin/pip install --no-cache-dir -r /web/requirements.txt
 ENV VIRTUAL_ENV /env
 ENV PATH /env/bin:$PATH
 EXPOSE 8000
