@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  productInventory:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: test:v1
+    env_file:
+      - .test_env
+    ports:
+      - "8000:8000"
+    networks:
+      - productInventory-net
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+  
+  postgresql:
+    image: docker.io/bitnami/postgresql:16
+    volumes:
+      - 'postgresql_live_data:/bitnami/postgresql'
+    environment:
+      - POSTGRESQL_PASSWORD=postgres
+      - POSTGRESQL_DATABASE=productInventorydb
+      - POSTGRESQL_USERNAME=postgres
+    restart: always
+
+    networks:
+      - productInventory-net
+
+networks:
+  productInventory-net:
+    name: productInventory-net
+
+volumes:
+  postgresql_live_data:
+    driver: local
